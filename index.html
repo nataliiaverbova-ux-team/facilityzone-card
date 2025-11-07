@@ -634,6 +634,7 @@
                     <h1>Facility zones</h1>
                     <div class="header-actions">
                         <button class="btn btn-primary" id="addTopLevelZoneBtn">Add facility zone</button>
+                        <button class="dropdown-btn" id="currentFacilityBtn">Current facility</button>
                     </div>
                     
                 </div>
@@ -756,6 +757,65 @@
             'Parking': 'Parking',
             'Yoga': 'Yoga'
         };
+        
+        const defaultZones = [
+          {
+            id: 'zone-1',
+            name: 'Fitness',
+            category: '',
+            color: '#a855f7',
+            relations: [],
+            children: [
+               {
+                id: 'zone-2',
+                name: 'Gym room',
+                category: 'Personal Training',
+                color: '#a0d468',
+                relations: [],
+                children: [],
+                expanded: true
+              },
+              {
+                id: 'zone-3',
+                name: 'Boxing room',
+                category: '',
+                color: '#5f9ea0',
+                relations: [],
+                children: [],
+                expanded: true
+              },
+            ],
+            expanded: true
+          },
+          {
+            id: 'zone-4',
+            name: 'Swimming Pools',
+            category: '',
+            color: '#4fc3f7',
+            relations: [],
+            children: [
+              {
+                id: 'zone-5',
+                name: 'Swimming lane 1',
+                category: '',
+                color: '#808080',
+                relations: [],
+                children: [],
+                expanded: true
+              },
+              {
+                id: 'zone-6',
+                name: 'Swimming lane 2',
+                category: '',
+                color: '#ffa726',
+                relations: [],
+                children: [],
+                expanded: true
+              }
+            ],
+            expanded: true
+          }
+        ];
 
         // Generate random color
         function generateRandomColor() {
@@ -771,83 +831,37 @@
         function generateId() {
             return 'zone_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
-        
-        // Save data to localStorage
-        function saveData() {
-            localStorage.setItem('facilityZones', JSON.stringify(zones));
-        }
 
         // Load data from localStorage
         function loadData() {
-            const saved = localStorage.getItem('facilityZones');
+            const saved = localStorage.getItem('facilityZones_v2');
             
             if (saved) {
-                zones = JSON.parse(saved);
-            } else {
-                zones = [
-                  {
-                    id: 'zone-1',
-                    name: 'Fitness',
-                    category: '',
-                    color: '#a855f7',
-                    relations: [],
-                    children: [
-                       {
-                        id: 'zone-2',
-                        name: 'Gym room',
-                        category: 'Personal Training',
-                        color: '#a0d468',
-                        relations: [],
-                        children: [],
-                        expanded: true
-                      },
-                      {
-                        id: 'zone-3',
-                        name: 'Boxing room',
-                        category: '',
-                        color: '#5f9ea0',
-                        relations: [],
-                        children: [],
-                        expanded: true
-                      },
-                    ],
-                    expanded: true
-                  },
-                  {
-                    id: 'zone-4',
-                    name: 'Swimming Pools',
-                    category: '',
-                    color: '#4fc3f7',
-                    relations: [],
-                    children: [
-                      {
-                        id: 'zone-5',
-                        name: 'Swimming lane 1',
-                        category: '',
-                        color: '#808080',
-                        relations: [],
-                        children: [],
-                        expanded: true
-                      },
-                      {
-                        id: 'zone-6',
-                        name: 'Swimming lane 2',
-                        category: '',
-                        color: '#ffa726',
-                        relations: [],
-                        children: [],
-                        expanded: true
-                      }
-                    ],
-                    expanded: true
+                try {
+                  const parsed = JSON.parse(saved);
+                  if (Array.isArray(parsed) && parsed.every(z => z.id && z.name)) {
+                    zones = parsed;
+                  } else {
+                    zones = defaultZones;
+                    saveData();
                   }
-                ];
-                saveData(); // Save defaults for next time
-            }
+                } catch {
+                  zones = defaultZones;
+                  saveData();
+                }
+              } else {
+                zones = defaultZones;
+                saveData();
+              }
+        
             renderZones();
         }
 
         
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('facilityZones_v2', JSON.stringify(zones));
+        }
 
         // Open Add Top-Level Zone Modal
         document.getElementById('addTopLevelZoneBtn').addEventListener('click', () => {

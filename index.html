@@ -639,7 +639,7 @@
                     
                 </div>
                 <div class="description">
-                    Facility zones ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                    Facility zones are specific areas within your sports facility that can be individually defined, managed, and tracked. Each zone represents a physical space — such as a fitness area, swimming pool, or sports court — allowing you to organize activities, bookings, capacities, and schedules more efficiently.
                 </div>
             </div>
 
@@ -758,66 +758,6 @@
             'Yoga': 'Yoga'
         };
 
-        // Default Zones
-        const defaultZones = [
-              {
-                id: 'zone-1',
-                name: 'Fitness',
-                category: '',
-                color: '#a855f7',
-                relations: [],
-                children: [
-                   {
-                    id: 'zone-2',
-                    name: 'Gym room',
-                    category: 'Personal Training',
-                    color: '#a0d468',
-                    relations: [],
-                    children: [],
-                    expanded: true
-                  },
-                  {
-                    id: 'zone-3',
-                    name: 'Boxing room',
-                    category: '',
-                    color: '#5f9ea0',
-                    relations: [],
-                    children: [],
-                    expanded: true
-                  },
-                ],
-                expanded: true
-              },
-              {
-                id: 'zone-4',
-                name: 'Swimming Pools',
-                category: '',
-                color: '#4fc3f7',
-                relations: [],
-                children: [
-                  {
-                    id: 'zone-5',
-                    name: 'Swimming lane 1',
-                    category: '',
-                    color: '#808080',
-                    relations: [],
-                    children: [],
-                    expanded: true
-                  },
-                  {
-                    id: 'zone-6',
-                    name: 'Swimming lane 2',
-                    category: '',
-                    color: '#ffa726',
-                    relations: [],
-                    children: [],
-                    expanded: true
-                  }
-                ],
-                expanded: true
-              }
-            ];
-
         // Generate random color
         function generateRandomColor() {
             const colors = [
@@ -836,10 +776,68 @@
         // Load data from localStorage
         function loadData() {
             const saved = localStorage.getItem('facilityZones');
+            
             if (saved) {
                 zones = JSON.parse(saved);
             } else {
-                zones = defaultZones;
+                zones = [
+                  {
+                    id: 'zone-1',
+                    name: 'Fitness',
+                    category: '',
+                    color: '#a855f7',
+                    relations: [],
+                    children: [
+                       {
+                        id: 'zone-2',
+                        name: 'Gym room',
+                        category: 'Personal Training',
+                        color: '#a0d468',
+                        relations: [],
+                        children: [],
+                        expanded: true
+                      },
+                      {
+                        id: 'zone-3',
+                        name: 'Boxing room',
+                        category: '',
+                        color: '#5f9ea0',
+                        relations: [],
+                        children: [],
+                        expanded: true
+                      },
+                    ],
+                    expanded: true
+                  },
+                  {
+                    id: 'zone-4',
+                    name: 'Swimming Pools',
+                    category: '',
+                    color: '#4fc3f7',
+                    relations: [],
+                    children: [
+                      {
+                        id: 'zone-5',
+                        name: 'Swimming lane 1',
+                        category: '',
+                        color: '#808080',
+                        relations: [],
+                        children: [],
+                        expanded: true
+                      },
+                      {
+                        id: 'zone-6',
+                        name: 'Swimming lane 2',
+                        category: '',
+                        color: '#ffa726',
+                        relations: [],
+                        children: [],
+                        expanded: true
+                      }
+                    ],
+                    expanded: true
+                  }
+                ];
                 saveData(); // Save defaults for next time
             }
             renderZones();

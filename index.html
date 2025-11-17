@@ -209,6 +209,14 @@
             color: #666;
             margin-bottom: 8px;
         }
+        .zone-list-header p{
+            float: left;
+            margin-right: 6px;
+        }
+        
+        .zone-list-header .info-icon {
+            margin-top: 1px;
+        }
         .zone-list-header .name{
             width: 53%;
             padding-left: 85px;
@@ -272,13 +280,13 @@
             align-content: flex-end;
             gap: 8px;
             flex-wrap: wrap;
-            width: 40%;
+           width: 40%;
             position: relative;
-            height: 40px;
+            
         }
         .zone-badges.category {
 
-            width: 10%;
+            width: 12%;
     
         }
         
@@ -1297,8 +1305,8 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <h3>Facilities</h3>
-            <div class="sidebar-item"><a href="/index.html">Facility zones</a></div>
-            <div class="sidebar-item"><a href="/facility-category.html">Facility categories</a></div>
+            <div class="sidebar-item"><a href="file:///Users/nataliia/Prototype/card-view.html">Facility zones</a></div>
+            <div class="sidebar-item"><a href="file:///Users/nataliia/Prototype/facility-category.html">Facility categories</a></div>
         </div>
 
         <!-- Main Content -->
@@ -1438,8 +1446,8 @@
                
                 <div class="zone-list-header">
                     <div class="name">Name</div>
-                    <div class="relation">Booking relations</div>
-                    <div class="category">Category</div>
+                    <div class="relation"><p>Booking relations</p><span class="info-icon" id="dialogRelations">i</span></div>
+                    <div class="category"><p>Facility category</p><span class="info-icon" id="dialogCategory">i</span></div>
                 </div>
                 <div class="zones-list" id="zonesList"></div>
             </div>

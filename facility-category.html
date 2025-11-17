@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Settings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f9f9fa;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 200px;
+            background-color: #fff;
+            border-right: 1px solid #e0e0e0;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar h3 {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-item {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .sidebar-item.active {
+            background-color: #f0f0f0;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+/*
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+*/
+            padding: 20px 30px;
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background-color: #1976D2;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1565c0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #4A7FC1;
+            border: 1px solid #ddd;
+        }
+
+        .btn-facility {
+            background-color: #c8ddb5;
+            color: #4a5f3a;
+            padding: 8px 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .description {
+            margin-top: 16px;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin: 0 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #666;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .category-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .color-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .facility-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #d4e7c5;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .facility-icon {
+            color: #5a7a44;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 20px;
+            color: #999;
+            position: relative;
+        }
+
+        .menu-btn:hover {
+            color: #333;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            min-width: 180px;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-subheader {
+            background-color: #e8f0dd;
+            padding: 15px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .subheader-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #5a7a44;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"]:focus {
+            outline: none;
+            border-color: #4A7FC1;
+        }
+
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .color-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .color-input-group input[type="text"] {
+            border: none;
+            padding: 0;
+            flex: 1;
+        }
+
+        input[type="color"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 20px 24px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        /* Facility Selector */
+        .facility-selector {
+            position: relative;
+        }
+
+        .facility-dropdown-toggle {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .facility-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 4px;
+            max-height: 250px;
+            overflow-y: auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+            display: none;
+        }
+
+        .facility-dropdown-menu.show {
+            display: block;
+        }
+
+        .facility-option {
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .facility-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .facility-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px 10px;
+            }
+
+            .modal {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+   <div class="container">
+       <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Facilities</h3>
+        <div class="sidebar-item"><a href="file:///Users/nataliia/Prototype/card-view.html">Facility zones</a></div>
+        <div class="sidebar-item"><a href="file:///Users/nataliia/Prototype/facility-category.html">Facility categories</a></div>
+    </div>
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <div class="breadcrumb">Settings / Facility categories</div>
+            <div class="header-content">
+                <h1>Facility categories</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="createCategoryBtn">Create category</button>
+                </div>
+
+            </div>
+            <div class="description">
+                A Facility Category is a label used to group similar types of facilities. It can be assigned to a zone so that the zone can connect to different services shared across multiple facilities. This helps organize resources and makes it easier to manage how services are linked to different zones.
+            </div>
+        </div>
+   
+<!--
+    <div class="breadcrumb">Settings / Opening hours</div>
+    
+    <div class="header">
+        <h1>Categories</h1>
+        <div class="header-actions">
+            <button class="btn btn-primary" id="createCategoryBtn">Create category</button>
+            <button class="btn btn-facility">
+                <span class="facility-icon">📍</span>
+                <span>Current facility</span>
+                <span>▼</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="description">
+        A Facility Category is a label used to group similar types of facilities. It can be assigned to a zone so that the zone can connect to different services shared across multiple facilities. This helps organize resources and makes it easier to manage how services are linked to different zones.
+    </div>
+-->
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th style="text-align: right;">Facilities</th>
+                        <th style="width: 50px;"></th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTableBody">
+                    <!-- Categories will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+       </div>
+    </div>
+
+    <!-- Create/Edit Category Modal -->
+    <div class="modal-overlay" id="categoryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Create category</h2>
+                <button class="close-btn" id="closeModalBtn">×</button>
+            </div>
+            <div class="modal-subheader">
+                <div class="subheader-item">
+                    <span class="facility-icon">📍</span>
+                    <span>Edit sharing settings</span>
+                </div>
+                <div class="facility-selector">
+                    <button class="facility-dropdown-toggle" id="facilityToggle">
+                        <span>Current facility</span>
+                        <span>▼</span>
+                    </button>
+                    <div class="facility-dropdown-menu" id="facilityDropdown">
+                        <div class="facility-option">
+                            <input type="checkbox" id="facility1" value="Studio Hamburg">
+                            <label for="facility1">Studio Hamburg</label>
+                        </div>
+                        <div class="facility-option">
+                            <input type="checkbox" id="facility2" value="Studio Berlin">
+                            <label for="facility2">Studio Berlin</label>
+                        </div>
+                        <div class="facility-option">
+                            <input type="checkbox" id="facility3" value="Studio Warsaw">
+                            <label for="facility3">Studio Warsaw</label>
+                        </div>
+                        <div class="facility-option">
+                            <input type="checkbox" id="facility4" value="Studio Krakow">
+                            <label for="facility4">Studio Krakow</label>
+                        </div>
+                        <div class="facility-option">
+                            <input type="checkbox" id="facility5" value="Studio London">
+                            <label for="facility5">Studio London</label>
+                        </div>
+                        <div class="facility-option">
+                            <input type="checkbox" id="facility6" value="Studio Milan">
+                            <label for="facility6">Studio Milan</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Name *</label>
+                    <input type="text" id="categoryName" placeholder="Enter category name">
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    <div class="color-input-group">
+                        <div class="color-preview" id="colorPreview"></div>
+                        <input type="text" id="colorInput" readonly>
+                        <input type="color" id="colorPicker">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveBtn">Create</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Data Storage
+        let categories = JSON.parse(localStorage.getItem('categories')) || [
+            { id: 1, name: 'Swimming', color: '#216ee8', facilities: 3 },
+            { id: 2, name: 'Personal Training', color: '#5924a2', facilities: 4 },
+            { id: 3, name: 'Court service', color: '#ffb11e', facilities: 5 },
+            { id: 4, name: 'Yoga', color: '#5F9EA0', facilities: 2, },
+            { id: 5, name: 'Parking', color: '#c44d22', facilities: 3 }
+        ];
+
+        let editingCategoryId = null;
+
+        // Save to localStorage
+        function saveCategories() {
+            localStorage.setItem('categories', JSON.stringify(categories));
+        }
+
+        // Generate random color
+        function generateRandomColor() {
+            const colors = ['#4169E1', '#87CEEB', '#5F9EA0', '#6495ED', '#4682B4', '#1E90FF', '#00BFFF', '#B0C4DE'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Render categories table
+        function renderCategories() {
+            const tbody = document.getElementById('categoryTableBody');
+            tbody.innerHTML = '';
+
+            categories.forEach(category => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="category-name">
+                            <div class="color-dot" style="background-color: ${category.color}"></div>
+                            <span>${category.name}</span>
+                        </div>
+                    </td>
+                    <td style="text-align: right;">
+                        <span class="facility-badge">
+                            <span class="facility-icon">📍</span>
+                            <span>${category.facilities}</span>
+                        </span>
+                    </td>
+                    <td style="position: relative;">
+                        <button class="menu-btn" data-id="${category.id}">⋮</button>
+                        <div class="dropdown-menu" id="menu-${category.id}">
+                            <div class="dropdown-item" onclick="editCategory(${category.id})">Edit category</div>
+                            <div class="dropdown-item" onclick="deleteCategory(${category.id})">Delete category</div>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Add menu button event listeners
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = this.getAttribute('data-id');
+                    const menu = document.getElementById(`menu-${id}`);
+                    
+                    // Close all other menus
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        if (m !== menu) m.classList.remove('show');
+                    });
+                    
+                    menu.classList.toggle('show');
+                });
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.menu-btn')) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('categoryModal');
+        const createBtn = document.getElementById('createCategoryBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const colorPicker = document.getElementById('colorPicker');
+        const colorPreview = document.getElementById('colorPreview');
+        const colorInput = document.getElementById('colorInput');
+        const categoryNameInput = document.getElementById('categoryName');
+
+        // Facility dropdown
+        const facilityToggle = document.getElementById('facilityToggle');
+        const facilityDropdown = document.getElementById('facilityDropdown');
+
+        facilityToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            facilityDropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.facility-selector')) {
+                facilityDropdown.classList.remove('show');
+            }
+        });
+
+        // Prevent dropdown from closing when clicking inside
+        facilityDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        createBtn.addEventListener('click', openCreateModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+        saveBtn.addEventListener('click', saveCategory);
+
+        // Close modal on overlay click
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        function openCreateModal() {
+            editingCategoryId = null;
+            document.getElementById('modalTitle').textContent = 'Create category';
+            document.getElementById('saveBtn').textContent = 'Create';
+            categoryNameInput.value = '';
+            
+            // Generate random color
+            const randomColor = generateRandomColor();
+            colorPicker.value = randomColor;
+            colorPreview.style.backgroundColor = randomColor;
+            colorInput.value = randomColor;
+            
+            // Reset checkboxes
+            document.querySelectorAll('.facility-option input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            modal.classList.add('show');
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+        }
+
+        function saveCategory() {
+            const name = categoryNameInput.value.trim();
+            const color = colorPicker.value;
+            
+            if (!name) {
+                alert('Please enter a category name');
+                return;
+            }
+
+            // Count selected facilities
+            const selectedFacilities = document.querySelectorAll('.facility-option input[type="checkbox"]:checked').length;
+
+            if (editingCategoryId) {
+                // Edit existing category
+                const category = categories.find(c => c.id === editingCategoryId);
+                category.name = name;
+                category.color = color;
+                category.facilities = selectedFacilities;
+            } else {
+                // Create new category
+                const newCategory = {
+                    id: Date.now(),
+                    name: name,
+                    color: color,
+                    facilities: selectedFacilities
+                };
+                categories.unshift(newCategory); // Add to top
+            }
+
+            saveCategories();
+            renderCategories();
+            closeModal();
+        }
+
+        window.editCategory = function(id) {
+            editingCategoryId = id;
+            const category = categories.find(c => c.id === id);
+            
+            document.getElementById('modalTitle').textContent = 'Edit category';
+            document.getElementById('saveBtn').textContent = 'Save';
+            categoryNameInput.value = category.name;
+            colorPicker.value = category.color;
+            colorPreview.style.backgroundColor = category.color;
+            colorInput.value = category.color;
+            
+            modal.classList.add('show');
+        }
+
+        window.deleteCategory = function(id) {
+            if (confirm('Are you sure you want to delete this category?')) {
+                categories = categories.filter(c => c.id !== id);
+                saveCategories();
+                renderCategories();
+            }
+        }
+
+        // Color picker functionality
+        colorPicker.addEventListener('input', function() {
+            const color = this.value;
+            colorPreview.style.backgroundColor = color;
+            colorInput.value = color;
+        });
+
+        colorPreview.addEventListener('click', function() {
+            colorPicker.click();
+        });
+
+        // Initialize
+        renderCategories();
+    </script>
+</body>
+</html>

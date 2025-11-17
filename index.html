@@ -222,7 +222,7 @@
             padding-left: 85px;
         }
         .zone-list-header .relation{
-            width: 26%;
+            width: 24%;
         }
         .zone-list-header .category{
             width: 17%;
@@ -286,7 +286,7 @@
         }
         .zone-badges.category {
 
-            width: 15%;
+            width: 14%;
     
         }
         
@@ -2971,7 +2971,7 @@
         // Show Category Badge Popover
         function showCategoryBadgePopover(event, zone) {
             const popover = document.getElementById('badgePopover');
-            popover.textContent = `Facility category. ${zone.category} Category linked to ${zone.category} Service.`;
+            popover.textContent = `${zone.category} Category linked to ${zone.category} Service.`;
             popover.style.left = event.pageX + 'px';
             popover.style.top = (event.pageY + 20) + 'px';
             popover.classList.add('open');
@@ -2980,7 +2980,7 @@
         // Show Relation Badge Popover
         function showRelationBadgePopover(event, zone, relatedZone) {
             const popover = document.getElementById('badgePopover');
-            popover.textContent = `Booking relations. Booking ${relatedZone.name} zone blocks ${zone.name} from being booked at the same time. This ensures proper space management.`;
+            popover.textContent = `Booking ${relatedZone.name} zone blocks ${zone.name} from being booked at the same time. This ensures proper space management.`;
             popover.style.left = event.pageX + 'px';
             popover.style.top = (event.pageY + 20) + 'px';
             popover.classList.add('open');

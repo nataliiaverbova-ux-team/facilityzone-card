@@ -149,9 +149,9 @@
         
         .info-alert {
             position: relative;
-            background: #e7f4fd;
-            color: #1f5284;
-            border: solid 1px #5c96d0;
+            background: #fdf7e7;
+            color: #5f512d;
+            border: solid 1px #dbab29;
             border-radius: 8px;
             font-size: 14px;
             line-height: 1.6;
@@ -163,21 +163,19 @@
         }
 
         .info-alert .modal-close {
-            color: #1f5284;
+            color: #5f512d;
             position: absolute;
             right: 10px;
             top: 10px;
         }
         .info-alert .modal-close:hover {
-            color: #146bbf;
+            color: #846d32;
         }
         
-        .info-alert a { 
-            color: #1f5284;
-        }
+        
         .info-alert-title .info-icon{
             float: left;
-            background-color: #1f5284;
+            background-color: #5f512d;
             margin-right: 8px;
             font-size: 11px;
             margin-top: 2px;
@@ -218,11 +216,11 @@
             margin-top: 1px;
         }
         .zone-list-header .name{
-            width: 50%;
+            width: 53%;
             padding-left: 85px;
         }
         .zone-list-header .relation{
-            width: 24%;
+            width: 26%;
         }
         .zone-list-header .category{
             width: 17%;
@@ -286,7 +284,7 @@
         }
         .zone-badges.category {
 
-            width: 14%;
+            width: 12%;
     
         }
         
@@ -1300,34 +1298,6 @@
         }
     </style>
 </head>
-    <script>
-(function (m, a, z, e) {
-  var s, t, u, v;
-  try {
-    t = m.sessionStorage.getItem('maze-us');
-  } catch (err) {}
-
-  if (!t) {
-    t = new Date().getTime();
-    try {
-      m.sessionStorage.setItem('maze-us', t);
-    } catch (err) {}
-  }
-
-  u = document.currentScript || (function () {
-    var w = document.getElementsByTagName('script');
-    return w[w.length - 1];
-  })();
-  v = u && u.nonce;
-
-  s = a.createElement('script');
-  s.src = z + '?apiKey=' + e;
-  s.async = true;
-  if (v) s.setAttribute('nonce', v);
-  a.getElementsByTagName('head')[0].appendChild(s);
-  m.mazeUniversalSnippetApiKey = e;
-})(window, document, 'https://snippet.maze.co/maze-universal-loader.js', 'bf238bfd-08f0-42c2-bb31-1920516f6f48');
-</script>
 <body>
     <div class="container">
         <!-- Sidebar -->
@@ -1357,16 +1327,7 @@
 
             <!-- Content -->
             <div class="content">
-<!--
-                <div class="info-alert" id="infoAlert">
-                    <div class="info-alert-title">
-                        <span class="info-icon">i</span>
-                        <p>Configuring your facility zones directly affects how facility bookings and availability are managed for your customers. Incorrect settings may cause double bookings or make resources unavailable. Use your <a href="#">studio plan</a> as a visual guide, and be sure to add <a href="#">Booking Relations</a> if certain zones can’t be booked at the same time.
-                        <a href="#">How to set up your zones correctly?</a> </p>
-                    </div>
-                    <button class="modal-close" onclick="closeInfoAlert()">×</button>
-                </div>
--->
+                
                <!-- Banner -->
                <div class="banner-container" id="closeBanner">
                     <div class="banner-header">
@@ -1379,9 +1340,6 @@
                             <!-- Slide 1 -->
                             <div class="slide">
 <!--                                <div class="slide-left">-->
-                                    <p class="intro-text">
-                                        Configuring your facility zones directly affects how bookings and availability are managed for your customers. Incorrect settings may cause double bookings or make resources unavailable. 
-                                    </p>
                                     <div class="step-header top">
                                         <span class="step-number">1</span>
                                         <span class="step-title">Use your studio plan as a visual guide to add zones.</span>
@@ -1471,7 +1429,13 @@
                         <button class="next-btn" id="nextBtn" onclick="nextSlide()">Next</button>
                     </div>
                 </div>
-               
+               <div class="info-alert" id="infoAlert">
+                    <div class="info-alert-title">
+                        <span class="info-icon">i</span>
+                        <p>Configuring your facility zones directly affects how facility zone booking and availability are managed for your customers. Incorrect settings may cause double bookings or make resources unavailable.
+                    </div>
+                    <button class="modal-close" onclick="closeInfoAlert()">×</button>
+                </div>
                 <div class="zone-list-header">
                     <div class="name">Name</div>
                     <div class="relation"><p>Booking relations</p><span class="info-icon" id="dialogRelations">i</span></div>
@@ -2971,7 +2935,7 @@
         // Show Category Badge Popover
         function showCategoryBadgePopover(event, zone) {
             const popover = document.getElementById('badgePopover');
-            popover.textContent = `${zone.category} Category linked to ${zone.category} Service.`;
+            popover.textContent = `Facility category. ${zone.category} Category linked to ${zone.category} Service.`;
             popover.style.left = event.pageX + 'px';
             popover.style.top = (event.pageY + 20) + 'px';
             popover.classList.add('open');
@@ -2980,7 +2944,7 @@
         // Show Relation Badge Popover
         function showRelationBadgePopover(event, zone, relatedZone) {
             const popover = document.getElementById('badgePopover');
-            popover.textContent = `Booking ${relatedZone.name} zone blocks ${zone.name} from being booked at the same time. This ensures proper space management.`;
+            popover.textContent = `Booking relations. Booking ${relatedZone.name} zone blocks ${zone.name} from being booked at the same time. This ensures proper space management.`;
             popover.style.left = event.pageX + 'px';
             popover.style.top = (event.pageY + 20) + 'px';
             popover.classList.add('open');
